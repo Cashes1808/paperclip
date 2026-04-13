@@ -30,6 +30,7 @@ import {
 } from "@paperclipai/adapter-codex-local";
 import { DEFAULT_CURSOR_LOCAL_MODEL } from "@paperclipai/adapter-cursor-local";
 import { DEFAULT_GEMINI_LOCAL_MODEL } from "@paperclipai/adapter-gemini-local";
+import { DMR_LOCAL_DEFAULT_URL } from "../adapters/dmr-local/build-config";
 
 function createValuesForAdapterType(
   adapterType: CreateConfigValues["adapterType"],
@@ -46,6 +47,8 @@ function createValuesForAdapterType(
     nextValues.model = DEFAULT_CURSOR_LOCAL_MODEL;
   } else if (adapterType === "opencode_local") {
     nextValues.model = "";
+  } else if (adapterType === "dmr_local") {
+    nextValues.url = DMR_LOCAL_DEFAULT_URL;
   }
   return nextValues;
 }

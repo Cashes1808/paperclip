@@ -96,6 +96,11 @@ const adapterDisplayMap: Record<string, AdapterDisplayInfo> = {
     comingSoon: true,
     disabledLabel: "Configure OpenClaw within the App",
   },
+  dmr_local: {
+    label: "DMR Local",
+    description: "Local Ollama inference via dmr-local",
+    icon: Cpu,
+  },
   process: {
     label: "Process",
     description: "Internal process adapter",
