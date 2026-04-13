@@ -20,6 +20,7 @@ export const dmrLocalAdapter: ServerAdapterModule = {
   testEnvironment,
   listModels,
   models: [],
+  supportsLocalAgentJwt: true,
   agentConfigurationDoc: `# dmr_local agent configuration
 
 Adapter: dmr_local
