@@ -49,6 +49,7 @@ import {
   sanitizeRuntimeServiceBaseEnv,
 } from "./workspace-runtime.js";
 import { issueService } from "./issues.js";
+import { logActivity } from "./activity-log.js";
 import { executionWorkspaceService, mergeExecutionWorkspaceConfig } from "./execution-workspaces.js";
 import { workspaceOperationService } from "./workspace-operations.js";
 import { isProcessGroupAlive, terminateLocalService } from "./local-service-supervisor.js";
@@ -3487,7 +3488,21 @@ export function heartbeatService(db: Db) {
           try {
             const issueComment = buildHeartbeatRunIssueComment(persistedResultJson);
             if (issueComment) {
-              await issuesSvc.addComment(issueId, issueComment, { agentId: agent.id, runId: finalizedRun.id });
+              const comment = await issuesSvc.addComment(issueId, issueComment, { agentId: agent.id, runId: finalizedRun.id });
+              await logActivity(db, {
+                companyId: agent.companyId,
+                actorType: "agent",
+                actorId: agent.id,
+                action: "issue.comment_added",
+                entityType: "issue",
+                entityId: issueId,
+                agentId: agent.id,
+                runId: finalizedRun.id,
+                details: {
+                  commentId: comment.id,
+                  bodySnippet: issueComment.slice(0, 120),
+                },
+              });
             }
           } catch (err) {
             await onLog(
